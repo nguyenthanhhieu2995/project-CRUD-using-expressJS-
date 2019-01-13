@@ -1,0 +1,10 @@
+extends ../layout/common
+
+block content
+	h1 Create user
+	form(action='/users/create' method='POST' class='form-inline')
+		label(class='mr-3') Name:
+		input(type='text' name='name' class='form-control mr-3')
+		button(class='btn btn-primary') Create
+		//- click vào nút Create kích hoạt app.post('/users/create')
+	include ../includes/foot

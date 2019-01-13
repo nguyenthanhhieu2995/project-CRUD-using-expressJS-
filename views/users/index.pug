@@ -1,0 +1,23 @@
+extends ../layout/common
+
+block content
+	h1 Users
+	a(href='/users/create') New
+	//- click vao đây kích hoạt dòng app.get(/users/create)
+	form(action='/users/search' method='GET' class='form-inline')
+		input(type="text" name= "q" class='form-control mr-3' value= q )
+		button(class='btn btn-primary') Search
+		//- click vào nút search sẽ kích hoạt dòng app.get(/users/search)
+	table
+		tbody
+			each user, index in users	
+				tr
+					td= (index+1) +' : '+ user.name 
+					td
+						a.btn.btn-primary(href= '/users/' + user.id ) View
+			//- click vào đây thi vào app.get('/users/'user.id') hoặc vào rout parameters cái nào đứng trước thì vào trước
+	include ../includes/foot		
+
+
+
+
