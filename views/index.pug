@@ -1,9 +1,5 @@
-html
-	head
-		link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css")
-		link(rel="stylesheet" href="/styles/styles.css")
-	body
-		.container
-			h1(class='alert alert-primary') #{name}
-			
+extends ./layout/common
+
+block content
+	h1.alert.alert-primary #{name}
 	//- click vào link này sẽ kích hoạt dòng app.get('/users')
