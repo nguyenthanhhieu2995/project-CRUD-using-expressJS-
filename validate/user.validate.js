@@ -1,14 +1,16 @@
+var validator = require('validator');
+
 module.exports.postCreate = (req,res,next) => {
 	var errors = [];
-	var regExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-	
-	if (!req.body.name) {
+	console.log(req.body.name);
+	console.log(req.body.phone);
+	if (validator.isEmpty(req.body.name)) {
 		errors.push('Name is required');
 	} 
-	if (!req.body.phone) {
+	if (validator.isEmpty(req.body.phone)) {
 		errors.push('Phone number is required')
-	} 
-	if (!req.body.phone.match(regExp)) {
+	}
+	else if (!validator.isMobilePhone(req.body.phone,['vi-VN'])) {
 		errors.push('Phone number wrong')
 	}
 	if (errors.length > 0) {
