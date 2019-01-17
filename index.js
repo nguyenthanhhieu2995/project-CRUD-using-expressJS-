@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -15,7 +17,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cookieParser('abc'));
+app.use(cookieParser(process.env.SECRET_STRING));
 
 app.use(express.static('public'));
 // file public được định nghĩa là file tĩnh có thể truy xuất localhost:3000/.....

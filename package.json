@@ -11,8 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "bootstrap-auto-dismiss-alert": "^1.0.2",
     "cookie-parser": "^1.4.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "lowdb": "^1.0.0",
     "md5": "^2.2.1",
