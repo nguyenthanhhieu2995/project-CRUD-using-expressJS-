@@ -24,6 +24,8 @@ module.exports.postLogin = (req,res) => {
 		})
 		return;
 	};
-	res.cookie('accountId',account.id);
+	res.cookie('accountId',account.id,{
+		signed : true
+	});
 	res.redirect('/users');
 }

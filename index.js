@@ -14,7 +14,8 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+
+app.use(cookieParser('abc'));
 
 app.use(express.static('public'));
 // file public được định nghĩa là file tĩnh có thể truy xuất localhost:3000/.....
