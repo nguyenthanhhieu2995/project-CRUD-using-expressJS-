@@ -2,7 +2,6 @@ const db = require('../db');
 
 module.exports.requireAuth = (req, res, next) => {
 	var id = req.signedCookies.accountId;
-	console.log(req.signedCookies);
 	var account = db.get('account').find({ id : id}).value();
 	if ( !account ) {
 		res.redirect('/auth/login');

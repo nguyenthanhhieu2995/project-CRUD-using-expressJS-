@@ -10,7 +10,7 @@ module.exports.postCreate = (req,res,next) => {
 	if (validator.isEmpty(req.body.phone)) {
 		errors.push('Phone number is required')
 	}
-	else if (!validator.isMobilePhone(req.body.phone,['vi-VN'])) {
+	else if (!validator.isMobilePhone(req.body.phone)) {
 		errors.push('Phone number wrong')
 	}
 	if (errors.length > 0) {

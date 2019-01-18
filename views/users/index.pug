@@ -2,11 +2,12 @@ extends ../layout/common
 
 block content
 	h1 Users
-	a.btn.btn-primary.mb-2(href='/users/create') New
-	//- click vao đây kích hoạt dòng app.get(/users/create)
-	form.form-inline(action='/users/search' method='GET')
-		input.form-control.mr-3(type="text" name= "q" value= q )
-		button.btn.btn-primary Search
+	nav.navbar
+		a.btn.btn-primary.mb-3.navbar-brand(href='/users/create') New
+		//- click vao đây kích hoạt dòng app.get(/users/create)
+		form.form-inline(action='/users/search' method='GET')
+			input.form-control.mr-3(type="text" name= "q" value= q )
+			button.btn.btn-primary Search
 		//- click vào nút search sẽ kích hoạt dòng app.get(/users/search)
 	table.table
 		thead
@@ -21,8 +22,23 @@ block content
 					td= user.name
 					td= user.phone 
 					td
-						a.btn.btn-primary(href= '/users/' + user.id ) View	
+						a.btn.btn-primary(href= '/users/' + user.id ) View
+
 			//- click vào đây thi vào app.get('/users/'user.id') hoặc vào rout parameters cái nào đứng trước thì vào trước
+	//- nav(aria-label='...')
+	//- 	ul.pagination.justify-content-end
+	//- 		li.page-item.disabled
+	//- 			span.page-link Previous
+	//- 		li.page-item.active
+	//- 			a.page-link(href='#') 1
+	//- 		li.page-item
+	//- 			span.page-link 2
+	//- 			span.sr-only (current)
+	//- 		li.page-item
+	//- 			a.page-link(href='#') 3
+	//- 		li.page-item
+	//- 			a.page-link(href='#') Next
+
 	include ../includes/foot		
 
 
