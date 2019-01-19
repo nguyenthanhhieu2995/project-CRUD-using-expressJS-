@@ -41,6 +41,13 @@ module.exports.view = (req,res) => {
   		user: user
   	});
 };
+module.exports.delete = (req,res) => {
+	const id = req.params.id;
+	db.get('users')
+	.remove({ id : id})
+	.write();
+	res.redirect('/users');
+}
 module.exports.postCreate = (req,res) => {
 	req.body.id = shortid.generate();
 	// console.log(req.body);

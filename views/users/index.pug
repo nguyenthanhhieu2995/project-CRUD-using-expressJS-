@@ -15,6 +15,7 @@ block content
 			th Name
 			th Phone number
 			th Infomation
+			th Action
 		tbody
 			each user, index in users	
 				tr
@@ -23,6 +24,8 @@ block content
 					td= user.phone 
 					td
 						a.btn.btn-primary(href= '/users/' + user.id ) View
+					td
+						a.btn.btn-danger(href= '/users/delete/' + user.id ) Delete	
 
 			//- click vào đây thi vào app.get('/users/'user.id') hoặc vào rout parameters cái nào đứng trước thì vào trước
 	//- nav(aria-label='...')

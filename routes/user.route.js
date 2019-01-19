@@ -10,6 +10,7 @@ router.get('/',controller.index);
 router.get('/search',controller.search);
 router.get('/create',controller.create);
 // use route parameter express 
+router.get('/delete/:id',controller.delete)
 router.get('/:id',controller.view);
 router.post('/create',validate.postCreate,controller.postCreate);
 
