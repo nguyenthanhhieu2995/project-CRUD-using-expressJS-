@@ -1,0 +1,19 @@
+
+if paginate.hasPreviousPages || paginate.hasNextPages(pageCount)
+nav
+  ul.pagination.justify-content-end
+    if paginate.hasPreviousPages
+      li.page-item
+        a.page-link(href=paginate.href(true)) Previous
+    if pages
+      each page,index in pages
+        - console.log(page.url);
+        if (fullUrl == page.url)
+          li.page-item.active
+            a.page-link(href=page.url)= page.number
+        else
+          li.page-item
+            a.page-link(href=page.url)= page.number
+    if paginate.hasNextPages(pageCount)
+      li.page-item
+        a.page-link(href=paginate.href()) Next

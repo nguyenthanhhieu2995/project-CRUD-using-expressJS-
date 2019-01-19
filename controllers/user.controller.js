@@ -1,4 +1,5 @@
 const shortid = require('shortid');
+const paginate = require('express-paginate'); 
 
 const db = require('../db');
 
@@ -6,9 +7,15 @@ module.exports.index = (req,res) => {
 	var page = (req.query.page) || 1;
 	var perPage = 8;
 	var start = (page-1) * perPage;
-	var end = page * perPage;  
+	var end = page * perPage; 
+	var itemCount = db.get('users').size().value();
+	var pageCount = Math.ceil(itemCount/perPage); 
 	res.render('users/index',{
-		users : db.get('users').value().slice(start,end)
+		users : db.get('users').value().slice(start,end),
+		pages : paginate.getArrayPages(req)(3, pageCount, req.query.page),
+		pageCount: pageCount,
+		itemCount : itemCount,
+		fullUrl : req.originalUrl
 	});
 };
 module.exports.search = (req,res) => {
@@ -18,12 +25,19 @@ module.exports.search = (req,res) => {
 	var end = page * perPage;
 	var q = req.query.q;
 	// console.log(db.get('users').value());
+	var itemCount = db.get('users').size().value();
+	var pageCount = Math.ceil(itemCount/perPage); 
 	var matchedUsers = db.get('users').value().filter(function(user) {
 		return user.name.toLowerCase().indexOf(q.toLowerCase()) !==-1;
 	});
+	var count = matchedUsers.length;
 	res.render('users/index',{
 		users : matchedUsers.slice(start,end),
-		q : q
+		pages : paginate.getArrayPages(req)(3, pageCount, req.query.page),
+		pageCount: pageCount,
+		itemCount : itemCount,
+		q : q,
+		fullUrl : req.originalUrl
 	})
 };
 module.exports.create = (req,res) => {
