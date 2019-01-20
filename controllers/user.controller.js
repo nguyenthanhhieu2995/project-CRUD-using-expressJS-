@@ -24,13 +24,11 @@ module.exports.search = (req,res) => {
 	var start = (page-1) * perPage;
 	var end = page * perPage;
 	var q = req.query.q;
-	// console.log(db.get('users').value());
-	var itemCount = db.get('users').size().value();
-	var pageCount = Math.ceil(itemCount/perPage); 
 	var matchedUsers = db.get('users').value().filter(function(user) {
 		return user.name.toLowerCase().indexOf(q.toLowerCase()) !==-1;
 	});
-	var count = matchedUsers.length;
+	var itemCount = matchedUsers.length;
+	var pageCount = Math.ceil(itemCount/perPage); 
 	res.render('users/index',{
 		users : matchedUsers.slice(start,end),
 		pages : paginate.getArrayPages(req)(3, pageCount, req.query.page),
@@ -55,6 +53,24 @@ module.exports.view = (req,res) => {
   		user: user
   	});
 };
+module.exports.edit = (req,res) => {
+	const id = req.params.id;
+	const user = db.get('users')
+	.find({ id : id})
+	.value();
+	res.render('users/edit',{
+		values : user
+	});
+}
+module.exports.postEdit = (req,res) => {
+	const id = req.params.id;
+	const user = db.get('users')
+	.find({ id : id }).assign({
+		name : req.body.name,
+		phone : req.body.phone
+	}).value();
+	res.redirect('/users');
+}
 module.exports.delete = (req,res) => {
 	const id = req.params.id;
 	db.get('users')

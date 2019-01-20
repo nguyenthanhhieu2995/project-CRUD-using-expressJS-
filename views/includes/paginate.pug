@@ -7,7 +7,7 @@ nav
         a.page-link(href=paginate.href(true)) Previous
     if pages
       each page,index in pages
-        - console.log(page.url);
+        //- - console.log(page.url);
         if (fullUrl == page.url)
           li.page-item.active
             a.page-link(href=page.url)= page.number

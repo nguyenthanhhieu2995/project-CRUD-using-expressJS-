@@ -12,9 +12,10 @@ router.use(paginate.middleware(10, 50));
 router.get('/',controller.index);
 router.get('/search',controller.search);
 router.get('/create',controller.create);
+router.get('/edit/:id',controller.edit);
 // use route parameter express 
-router.get('/delete/:id',controller.delete)
+router.get('/delete/:id',controller.delete);
 router.get('/:id',controller.view);
 router.post('/create',validate.postCreate,controller.postCreate);
-
+router.post('/edit/:id',controller.postEdit);
 module.exports = router;

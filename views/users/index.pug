@@ -9,12 +9,11 @@ block content
 			input.form-control.mr-3(type="text" name= "q" value= q )
 			button.btn.btn-primary Search
 		//- click vào nút search sẽ kích hoạt dòng app.get(/users/search)
-	table.table
+	table.table.text-center
 		thead
 			th Index
 			th Name
 			th Phone number
-			th Infomation
 			th Action
 		tbody
 			each user, index in users	
@@ -23,9 +22,9 @@ block content
 					td= user.name
 					td= user.phone 
 					td
-						a.btn.btn-primary(href= '/users/' + user.id ) View
-					td
-						a.btn.btn-danger(href= '/users/delete/' + user.id ) Delete	
+						a.btn.btn-info.mx-1(href= '/users/' + user.id ) View
+						a.btn.btn-success.mx-1(href= '/users/edit/' + user.id ) Edit
+						a.btn.btn-danger.mx-1(href= '/users/delete/' + user.id ) Delete	
 
 			//- click vào đây thi vào app.get('/users/'user.id') hoặc vào rout parameters cái nào đứng trước thì vào trước
 	
