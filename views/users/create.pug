@@ -4,17 +4,20 @@ block content
 	h1 Create user
 	if errors
 		each error in errors
-			.alert.alert-danger.alert-dismissible.w-50.m-auto
+			.alert.alert-danger.alert-dismissible.m-auto.w-50
 				a.close(href='#' data-dismiss='alert' aria-label='close') &times;
 				strong= error
 	.d-flex.justify-content-center
-		form.w-50(action='/users/create' method='POST')
+		form.w-50(action='/users/create' method='POST' enctype="multipart/form-data")
 			.form-group
 				label.mr-3(for='name') Name:
 				input#name.form-control.mr-3(type='text' name='name' style="text-transform: capitalize" value=values? values.name:'')
 			.form-group
 				label.mr-3(for='num') Phone Number:
-				input#num.form-control.mr-3(type='text' name='phone' value=values? values.phone:'') 
+				input#num.form-control.mr-3(type='text' name='phone' value=values? values.phone:'')
+			.form-group
+				label.mr-3(for='avatar') Avatar:
+				input#avatar.form-control-file.mr-3(type='file' name='avatar')
 			button.btn.btn-primary Create
 		//- click vào nút Create kích hoạt app.post('/users/create')
 	include ../includes/foot

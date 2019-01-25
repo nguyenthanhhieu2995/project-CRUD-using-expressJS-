@@ -2,26 +2,31 @@ extends ../layout/common
 
 block content
 	h1 Users
-	nav.navbar
-		a.btn.btn-primary.mb-3.navbar-brand(href='/users/create') New
-		//- click vao đây kích hoạt dòng app.get(/users/create)
-		form.form-inline(action='/users/search' method='GET')
+	nav.navbar.p-0
+		form.form-inline.mb-3(action='/users' method='GET')
 			input.form-control.mr-3(type="text" name= "q" value= q )
 			button.btn.btn-primary Search
+		a.btn.btn-primary.navbar-brand.align-middle(href='/users/create') New
+		//- click vao đây kích hoạt dòng app.get(/users/create)
+
 		//- click vào nút search sẽ kích hoạt dòng app.get(/users/search)
 	table.table.text-center
 		thead
 			th Index
+			th Avatar
 			th Name
 			th Phone number
 			th Action
 		tbody
-			each user, index in users	
+			each user, index in users
 				tr
 					td= index+1
+					td
+						img.square.rounded-circle(src=user.avatar)
 					td= user.name
 					td= user.phone 
-					td
+					td.d-flex.justify-content-center
+						
 						a.btn.btn-info.mx-1(href= '/users/' + user.id ) View
 						a.btn.btn-success.mx-1(href= '/users/edit/' + user.id ) Edit
 						a.btn.btn-danger.mx-1(href= '/users/delete/' + user.id ) Delete	

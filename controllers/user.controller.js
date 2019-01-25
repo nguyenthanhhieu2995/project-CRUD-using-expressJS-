@@ -1,3 +1,4 @@
+const fs = require('fs');
 const shortid = require('shortid');
 const paginate = require('express-paginate'); 
 
@@ -8,35 +9,29 @@ module.exports.index = (req,res) => {
 	var perPage = 8;
 	var start = (page-1) * perPage;
 	var end = page * perPage; 
-	var itemCount = db.get('users').size().value();
-	var pageCount = Math.ceil(itemCount/perPage); 
-	res.render('users/index',{
-		users : db.get('users').value().slice(start,end),
-		pages : paginate.getArrayPages(req)(3, pageCount, req.query.page),
-		pageCount: pageCount,
-		itemCount : itemCount,
-		fullUrl : req.originalUrl
-	});
-};
-module.exports.search = (req,res) => {
-	var page = (req.query.page) || 1;
-	var perPage = 8;
-	var start = (page-1) * perPage;
-	var end = page * perPage;
 	var q = req.query.q;
-	var matchedUsers = db.get('users').value().filter(function(user) {
-		return user.name.toLowerCase().indexOf(q.toLowerCase()) !==-1;
-	});
-	var itemCount = matchedUsers.length;
+	//console.log(typeof(q));
+	if (q) {
+		if (q.trim() == '' || q.trim() == null) {
+			users = db.get('users').value();
+		} else {
+			users = db.get('users').value().filter(function(user) {
+				return user.name.toLowerCase().indexOf(q.trim().toLowerCase()) !==-1;
+			});
+		}	
+	} else {
+		users = db.get('users').value();
+	}
+	var itemCount = users.length;
 	var pageCount = Math.ceil(itemCount/perPage); 
 	res.render('users/index',{
-		users : matchedUsers.slice(start,end),
+		users : users.slice(start,end),
 		pages : paginate.getArrayPages(req)(3, pageCount, req.query.page),
 		pageCount: pageCount,
 		itemCount : itemCount,
-		q : q,
-		fullUrl : req.originalUrl
-	})
+		fullUrl : req.originalUrl,
+		q : q
+	});
 };
 module.exports.create = (req,res) => {
 	res.render('users/create');
@@ -64,15 +59,35 @@ module.exports.edit = (req,res) => {
 }
 module.exports.postEdit = (req,res) => {
 	const id = req.params.id;
-	const user = db.get('users')
+	const userEdit = db.get('users').find({ id : id}).value();
+	const oldImg = userEdit.avatar; // upload\\fjadjgadg
+	if (oldImg) {
+		const oldImgBinary = oldImg.split('\\').slice(1).join('\\');
+		fs.unlink('./public/uploads/' + oldImgBinary, (err) => {
+			if (err) throw err;
+			console.log('successfully deleted');
+		});
+	}
+	req.body.avatar = req.file.path.split('\\').slice(1).join('\\'); //new
+	db.get('users')
 	.find({ id : id }).assign({
 		name : req.body.name,
-		phone : req.body.phone
-	}).value();
+		phone : req.body.phone,
+		avatar : req.body.avatar 
+	}).write();
 	res.redirect('/users');
 }
 module.exports.delete = (req,res) => {
 	const id = req.params.id;
+	const userEdit = db.get('users').find({ id : id}).value();
+	const oldImg = userEdit.avatar; // upload\\fjadjgadg
+	if (oldImg) {
+		const oldImgBinary = oldImg.split('\\').slice(1).join('\\');
+		fs.unlink('./public/uploads/' + oldImgBinary, (err) => {
+			if (err) throw err;
+			console.log('successfully deleted');
+		});
+	}
 	db.get('users')
 	.remove({ id : id})
 	.write();
@@ -80,6 +95,7 @@ module.exports.delete = (req,res) => {
 }
 module.exports.postCreate = (req,res) => {
 	req.body.id = shortid.generate();
+	req.body.avatar = req.file.path.split('\\').slice(1).join('\\');
 	// console.log(req.body);
 	db.get('users')
 	.push( req.body )

@@ -25,7 +25,7 @@ app.use(express.static('public'));
 app.set('view engine', 'pug');
 app.set('views', './views');
 
-app.get('/',validateAuth.requireAuth,(req,res) => {
+app.get('/',(req,res) => {
 	res.render('index',{ 
 		name : 'Using NodeJS-ExpressJS to create User Management App'
 	})
